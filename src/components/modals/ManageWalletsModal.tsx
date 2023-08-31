@@ -8,6 +8,7 @@ import { ContextModalProps } from '@mantine/modals'
 
 import { selectAddressList } from 'src/store/features/settings/settingsSelector'
 import { addressListChanged } from 'src/store/features/settings/settingsSlice'
+import { add } from 'lodash'
 
 const WalletInput: FC<{
   label: string
@@ -61,16 +62,22 @@ export const ManageWalletsModal: FC<ContextModalProps> = ({ context, id }) => {
       style={{ width: '500px', maxWidth: '100%' }}
     >
       <Flex direction={'column'} gap={'xs'} style={{ width: '100%' }}>
-        <WalletInput
-          label={t('address', { value: 1 })}
-          value={addressList[0]}
-          onChange={(value) => setAddressList([value, addressList[1]])}
-        />
-        <WalletInput
-          label={t('address', { value: 2 })}
-          value={addressList[1]}
-          onChange={(value) => setAddressList([addressList[0], value])}
-        />
+        { addressList.length > 0 && (
+          addressList.map((address, index) => (
+            <WalletInput
+              key={index}
+              label={t('address', { value: index + 1 })}
+              value={address}
+              onChange={(value) => {
+                setAddressList(oldAddressList => {
+                  const newAddressList = [...oldAddressList]
+                  newAddressList[index] = value
+                  return newAddressList
+                })
+              }}
+            />
+          ))
+        )}
       </Flex>
       <Flex gap={'lg'}>
         <Button onClick={onClose} variant={'subtle'}>
