@@ -8,7 +8,7 @@ interface SettingsInitialStateType {
 }
 
 const settingsInitialState: SettingsInitialStateType = {
-  addressList: ['', ''],
+  addressList: ['', '', ''],
   isInitialized: false,
 }
 
@@ -35,7 +35,7 @@ export const settingsReducers = createReducer(
       })
       .addCase(initializeSettings, (state) => {
         const value = localStorage.getItem(ADDRESS_LIST_LS_KEY)
-        state.addressList = value ? JSON.parse(value) : ['', '']
+        state.addressList = value ? JSON.parse(value) : ['', '', '']
         state.isInitialized = true
       })
   }

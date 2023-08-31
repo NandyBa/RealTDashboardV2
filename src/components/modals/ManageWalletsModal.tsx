@@ -64,12 +64,17 @@ export const ManageWalletsModal: FC<ContextModalProps> = ({ context, id }) => {
         <WalletInput
           label={t('address', { value: 1 })}
           value={addressList[0]}
-          onChange={(value) => setAddressList([value, addressList[1]])}
+          onChange={(value) => setAddressList(s => [value, s[1], s[2]])}
         />
         <WalletInput
           label={t('address', { value: 2 })}
           value={addressList[1]}
-          onChange={(value) => setAddressList([addressList[0], value])}
+          onChange={(value) => setAddressList(s => [s[0], value, s[2]])}
+        />
+        <WalletInput
+          label={t('address', { value: 3 })}
+          value={addressList[2]}
+          onChange={(value) => setAddressList(s => [s[0], s[1], value])}
         />
       </Flex>
       <Flex gap={'lg'}>

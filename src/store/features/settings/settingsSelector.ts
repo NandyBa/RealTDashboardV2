@@ -15,7 +15,7 @@ export const selectCleanedAddressList = (state: RootState): string[] =>
   Array.from(
     new Set(
       state.settings.addressList
-        .filter((item) => item !== '')
+        .filter((item) => item !== '' && item !== null && item !== undefined)
         .map((item) => item.toLowerCase())
     )
   )
