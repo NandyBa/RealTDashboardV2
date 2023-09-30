@@ -17,6 +17,23 @@ import { MantineProviders } from 'src/providers'
 import InitStoreProvider from 'src/providers/InitStoreProvider'
 import store from 'src/store/store'
 
+import { 
+  ChainSelectConfig,
+  Layout, 
+ 
+  RealtProvider, 
+  Web3Providers, 
+  Websites, 
+  getConnectors, 
+  getWalletConnectV2, 
+  gnosisHooks, 
+  gnosisSafe, 
+  initLanguage, 
+  metaMask, 
+  metaMaskHooks, 
+  parseAllowedChain 
+} from '@realtoken/realt-commons'
+
 type TestProps = {
   initialLocale: string
 }
@@ -38,25 +55,32 @@ type AppProps = NextAppProps & { colorScheme: ColorScheme; locale: string }
 
 const queryClient = new QueryClient({})
 
+
+const libraryConnectors = getConnectors(
+  [metaMask, metaMaskHooks],
+);
+
 const App = ({ Component, pageProps, colorScheme, locale }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <JotaiProvider>
         <Provider store={store}>
-          <InitStoreProvider>
-            <Head
-              title={'Realtoken Dashboard'}
-              description={
-                'A Realtoken Dashboard for follow assets related to RealT'
-              }
-            />
-            <MantineProviders initialColorScheme={colorScheme}>
-              <LanguageInit initialLocale={locale} />
-              <MainLayout>
-                <Component {...pageProps} />
-              </MainLayout>
-            </MantineProviders>
-          </InitStoreProvider>
+          <Web3Providers libraryConnectors={libraryConnectors}>
+            <InitStoreProvider>
+              <Head
+                title={'Realtoken Dashboard'}
+                description={
+                  'A Realtoken Dashboard for follow assets related to RealT'
+                }
+              />
+              <MantineProviders initialColorScheme={colorScheme}>
+                <LanguageInit initialLocale={locale} />
+                <MainLayout>
+                  <Component {...pageProps} />
+                </MainLayout>
+              </MantineProviders>
+            </InitStoreProvider>
+          </Web3Providers>
         </Provider>
       </JotaiProvider>
     </QueryClientProvider>
